@@ -1,11 +1,13 @@
 import React from 'react';
 import { Contact } from '../../types';
+import './contact.css';
 
 interface Props {
   contact: Contact;
+  onClick: () => void;
 }
 
-const ContactItem: React.FC<Props> = ({ contact }) => {
+const ContactItem: React.FC<Props> = ({ contact, onClick }) => {
   const imageStyle = {
     backgroundImage: `url(${contact.photo}) no-repeat center / cover`,
     width: '140px',
@@ -13,7 +15,7 @@ const ContactItem: React.FC<Props> = ({ contact }) => {
   };
 
   return (
-    <div className="card rounded-4 w-50">
+    <div className="card rounded-4 w-50" onClick={onClick}>
       <div className="row g-0">
         <div className="col-4">
           <img

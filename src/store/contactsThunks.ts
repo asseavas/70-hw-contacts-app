@@ -33,3 +33,37 @@ export const createContact = createAsyncThunk<void, ApiContact>(
     await axiosApi.post('/contacts.json', apiContact);
   },
 );
+
+export const fetchOneContact = createAsyncThunk<ApiContact, string>(
+  'contacts/fetchOne',
+  async (id) => {
+    const { data: contact } = await axiosApi.get<ApiContact | null>(
+      `/contacts/${id}.json`,
+    );
+
+    if (contact === null) {
+      throw new Error('Not found');
+    }
+
+    return contact;
+  },
+);
+
+export interface UpdateContactArg {
+  id: string;
+  apiContact: ApiContact;
+}
+
+export const updateContact = createAsyncThunk<void, UpdateContactArg>(
+  'contacts/update',
+  async ({ id, apiContact }) => {
+    await axiosApi.put(`/contacts/${id}.json`, apiContact);
+  },
+);
+
+export const deleteContact = createAsyncThunk<void, string>(
+  'contacts/deleteContact',
+  async (contactId) => {
+    await axiosApi.delete(`/contacts/${contactId}.json`);
+  },
+);
