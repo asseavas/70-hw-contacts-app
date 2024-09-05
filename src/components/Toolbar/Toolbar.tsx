@@ -3,14 +3,14 @@ import { NavLink } from 'react-router-dom';
 
 const Toolbar: React.FC = () => {
   return (
-    <nav className="navbar" style={{ background: '#e3f2fd' }}>
+    <nav className="navbar" style={{ background: '#115a94' }}>
       <div className="container">
-        <NavLink to="/" className="navbar-brand fs-3">
+        <NavLink to="/" className="navbar-brand fs-3 text-uppercase text-light">
           Contacts
         </NavLink>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <NavLink className="nav-link" to="/new-contact">
+            <NavLink className="nav-link text-light" to="/new-contact">
               Create new contact
             </NavLink>
           </li>

@@ -21,11 +21,9 @@ const DishForm: React.FC<Props> = ({
   existingContact,
   isLoading = false,
 }) => {
-  const initialState: ContactMutation = existingContact
-    ? { ...existingContact, phone: existingContact.phone.toString() }
-    : emptyState;
+  const initialState: ApiContact = existingContact || emptyState;
   const [contactMutation, setContactMutation] =
-    useState<ContactMutation>(initialState);
+    useState<ApiContact>(initialState);
 
   const defaultPhoto =
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png';
@@ -37,13 +35,12 @@ const DishForm: React.FC<Props> = ({
 
   const imageStyle = {
     background: `url(${photoPreview}) no-repeat center / cover`,
-    width: '150px',
-    height: '150px',
+    borderRadius: '15px',
+    width: '250px',
+    height: '250px',
   };
 
-  const changeContact = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const changeContact = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     if (value.includes(' ')) {
@@ -77,83 +74,96 @@ const DishForm: React.FC<Props> = ({
 
     onSubmit({
       ...contactMutation,
-      phone: parseFloat(contactMutation.phone),
     });
   };
 
   return (
-    <form onSubmit={onFormSubmit}>
-      <h4>{existingContact ? 'Edit contact' : 'Add new contact'}</h4>
-      {error && <div className="alert alert-danger">{error}</div>}
-      <div className="form-group">
-        <label htmlFor="name">Name</label>
-        <input
-          type="text"
-          name="name"
-          id="name"
-          required
-          className="form-control"
-          onChange={changeContact}
-          value={contactMutation.name}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="phone">Phone</label>
-        <input
-          type="tel"
-          name="phone"
-          id="phone"
-          pattern="^\+[0-9]*$"
-          className="form-control"
-          onChange={changeContact}
-          value={contactMutation.phone}
-        />
-        <small className="form-text text-muted">
-          Phone number must start with a + and contain only numbers.
-        </small>
-      </div>
-      <div className="form-group">
-        <label htmlFor="email">Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          required
-          className="form-control"
-          onChange={changeContact}
-          value={contactMutation.email}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="photo">Photo</label>
-        <input
-          type="url"
-          name="photo"
-          id="photo"
-          required
-          className="form-control"
-          onChange={changeContact}
-          value={contactMutation.photo}
-        />
-      </div>
-      <div className="form-group">
+    <div className="row g-4">
+      <form onSubmit={onFormSubmit} className="col-7 d-flex flex-column gap-3">
+        <h4>{existingContact ? 'Edit contact' : 'Add new contact'}</h4>
+        {error && <div className="alert alert-danger">{error}</div>}
+        <div className="form-group mt-3">
+          <label htmlFor="name" className="text-muted">
+            Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            required
+            style={{ borderColor: '#a9c8e3' }}
+            className="form-control border-3 rounded-4 mt-2 p-2"
+            onChange={changeContact}
+            value={contactMutation.name}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="phone" className="text-muted">
+            Phone
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            id="phone"
+            pattern="^\+[0-9]*$"
+            style={{ borderColor: '#a9c8e3' }}
+            className="form-control border-3 rounded-4 mt-2 p-2"
+            onChange={changeContact}
+            value={contactMutation.phone}
+          />
+          <small className="form-text text-muted">
+            Phone number must start with a + and contain only numbers.
+          </small>
+        </div>
+        <div className="form-group">
+          <label htmlFor="email" className="text-muted">
+            Email
+          </label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            required
+            style={{ borderColor: '#a9c8e3' }}
+            className="form-control border-3 rounded-4 mt-2 p-2"
+            onChange={changeContact}
+            value={contactMutation.email}
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="photo" className="text-muted">
+            Photo
+          </label>
+          <input
+            type="url"
+            name="photo"
+            id="photo"
+            required
+            style={{ borderColor: '#a9c8e3' }}
+            className="form-control border-3 rounded-4 mt-2 p-2"
+            onChange={changeContact}
+            value={contactMutation.photo}
+          />
+        </div>
+        <div className="d-flex gap-3 mt-3">
+          <button
+            type="submit"
+            className="btn btn-primary mt-3 rounded-3"
+            disabled={isLoading}
+          >
+            {isLoading && <ButtonSpinner />}
+            {existingContact ? 'Update' : 'Create'}
+          </button>
+          <NavLink to="/" className="btn btn-danger mt-3 rounded-3">
+            Back to contacts
+          </NavLink>
+        </div>
+      </form>
+      <div className="col-5 d-flex flex-column align-items-center justify-content-center">
         <p>Photo preview</p>
         <div style={imageStyle} />
       </div>
-      <div className="d-flex gap-3">
-        <button
-          type="submit"
-          className="btn btn-primary mt-3"
-          disabled={isLoading}
-        >
-          {isLoading && <ButtonSpinner />}
-          {existingContact ? 'Update' : 'Create'}
-        </button>
-        <NavLink to="/" className="btn btn-danger mt-3">
-          Back to contacts
-        </NavLink>
-      </div>
-    </form>
+    </div>
   );
 };
 

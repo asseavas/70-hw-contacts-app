@@ -22,12 +22,12 @@ const Modal: React.FC<Props> = ({ show, title, onClose, children }) => {
           className="modal-dialog"
           onClick={(event) => event.stopPropagation()}
         >
-          <div className="modal-content">
+          <div className="modal-content rounded-4 border-0">
             <div className="modal-header">
               <h1 className="modal-title fs-5">{title}</h1>
               <button
                 type="button"
-                className="btn-close"
+                className="btn-close me-1"
                 aria-label="Close"
                 onClick={onClose}
               />
